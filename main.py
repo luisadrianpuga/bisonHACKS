@@ -18,7 +18,7 @@ import cv2
 
 # Constants
 outputtext=''
-leb=Label(text=outputtext,size_hint_y=None,height='48dp',font_size='45dp')
+barCode=Label(text=outputtext,size_hint_y=None,height='48dp',font_size='45dp')
 found = set()       
 togglflag=True
 
@@ -62,7 +62,7 @@ class MainScreen(BoxLayout):
                     cv2.putText(frame, text, (x, y - 10),cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
                     if barcodeData not in found:    
                         outputtext=text
-                        leb.text=outputtext         
+                        barCode.text=outputtext         
                         found.add(barcodeData)
                         self.change_screen()
                 
@@ -96,14 +96,14 @@ class SecondScreen(BoxLayout):
         self.lab1=Label(text='Output: ',size_hint_y=None,height='48dp',font_size='45dp')
         self.but1=Button(text='Scan Another Item',on_press=self.change_screen,size_hint_y=None,height='48dp')
         self.add_widget(self.lab1)
-        self.add_widget(leb)
+        self.add_widget(barCode)
         self.add_widget(self.but1)
         
     def change_screen(self,*args):
         main_app.sm.current='main' #Return the user to the mainscreen
         #reset the constants
         outputtext=''
-        leb=Label(text='',size_hint_y=None,height='48dp',font_size='45dp')
+        barCode=Label(text='',size_hint_y=None,height='48dp',font_size='45dp')
         
 class TestApp(App):
     def build(self):
