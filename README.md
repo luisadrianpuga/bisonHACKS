@@ -35,7 +35,7 @@ python3 main.py
 Contributors names 
 
 Luis Puga,
-Praise Praise Idowu,
+Praise Idowu,
 RainbowMan
 
 ## Version History
