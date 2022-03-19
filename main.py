@@ -84,7 +84,7 @@ class MainScreen(BoxLayout):
                             outputtext='No Matching Allergens'
                             barCode.text=outputtext 
                             print(outputtext)        
-                            found.add(barcodeData)
+                          
                             self.change_screen()
                         
                         #Nerds
@@ -93,7 +93,7 @@ class MainScreen(BoxLayout):
                             outputtext='WARNING: MAY CONTAIN EGGS'
                             barCode.text=outputtext 
                             print(outputtext)        
-                            found.add(barcodeData)
+                            
                             self.change_screen()
                         
                         #Skittles
@@ -102,7 +102,7 @@ class MainScreen(BoxLayout):
                             outputtext='No Matching Allergens'
                             barCode.text=outputtext 
                             print(outputtext)        
-                            found.add(barcodeData)
+                            
                             self.change_screen()
                             
                         #DORITOS
@@ -111,7 +111,7 @@ class MainScreen(BoxLayout):
                             outputtext='WARNING: CONTAINS MILK'
                             barCode.text=outputtext 
                             print(outputtext)        
-                            found.add(barcodeData)
+                           
                             self.change_screen()
                         
                             
