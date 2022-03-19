@@ -1,3 +1,6 @@
+#
+#TEAM NAME
+#
 
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen
@@ -10,12 +13,11 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.clock import Clock
 from kivy.graphics.texture import Texture
 from pyzbar import pyzbar
-import webbrowser
+
 import cv2
 
-
+# Constants
 outputtext=''
-weblink=''
 leb=Label(text=outputtext,size_hint_y=None,height='48dp',font_size='45dp')
 found = set()       
 togglflag=True
@@ -26,24 +28,22 @@ class MainScreen(BoxLayout):
         super().__init__(**kwargs)
         self.orientation='vertical'  
         
-        self.cam=cv2.VideoCapture(0)   
-        self.cam.set(3,1280)       
+        self.cam=cv2.VideoCapture(0)    
+        self.cam.set(3,1280)        
         self.cam.set(4,720)
-        self.img=Image()       
+        self.img=Image()        
         
-        
-        self.togbut=ToggleButton(text='Pause',group='camstart',state='down',size_hint_y=None,height='48dp',on_press=self.change_state)
-        self.but=Button(text='Stop',size_hint_y=None,height='48dp',on_press=self.stop_stream)
+       
+
         self.add_widget(self.img)
-        self.add_widget(self.togbut)
-        self.add_widget(self.but)
-        Clock.schedule_interval(self.update,1.0/30)     
+     
+        Clock.schedule_interval(self.update,1.0/30)    
         
                 
-    
+    # update frame of OpenCV camera
     def update(self,dt):
         if togglflag:
-            ret, frame = self.cam.read()   
+            ret, frame = self.cam.read()    
             
             if ret:
                 buf1=cv2.flip(frame,0)      
@@ -52,13 +52,12 @@ class MainScreen(BoxLayout):
                 image_texture.blit_buffer(buf,colorfmt='bgr',bufferfmt='ubyte')
                 self.img.texture=image_texture  
                 
-                barcodes = pyzbar.decode(frame)     
+                barcodes = pyzbar.decode(frame)  # detect barcode from image
                 for barcode in barcodes:
                     (x, y, w, h) = barcode.rect
                     cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 0, 255), 2)
                     barcodeData = barcode.data.decode("utf-8")
                     barcodeType = barcode.type
-                    weblink=barcodeData
                     text = "{} ({})".format(barcodeData, barcodeType)
                     cv2.putText(frame, text, (x, y - 10),cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
                     if barcodeData not in found:    
@@ -72,7 +71,7 @@ class MainScreen(BoxLayout):
                     cv2.destroyAllWindows()
                     exit(0)
         
-   
+    # change state of toggle button
     def change_state(self,*args):
         global togglflag
         if togglflag:
@@ -84,7 +83,7 @@ class MainScreen(BoxLayout):
             
             
     def stop_stream(self,*args):
-        self.cam.release()  
+        self.cam.release()  # stop camera
         
     def change_screen(self,*args):
         main_app.sm.current='second'    
@@ -92,15 +91,19 @@ class MainScreen(BoxLayout):
 class SecondScreen(BoxLayout):
     def __init__(self,**kwargs):
         super().__init__(**kwargs)
+        
         self.orientation='vertical'
         self.lab1=Label(text='Output: ',size_hint_y=None,height='48dp',font_size='45dp')
-        self.but1=Button(text='Open in Web Browser',on_press=self.open_browser,size_hint_y=None,height='48dp')
+        self.but1=Button(text='Scan Another Item',on_press=self.change_screen,size_hint_y=None,height='48dp')
         self.add_widget(self.lab1)
         self.add_widget(leb)
         self.add_widget(self.but1)
         
-    def open_browser(self,*args):
-        webbrowser.open(weblink)       
+    def change_screen(self,*args):
+        main_app.sm.current='main' #Return the user to the mainscreen
+        #reset the constants
+        outputtext=''
+        leb=Label(text='',size_hint_y=None,height='48dp',font_size='45dp')
         
 class TestApp(App):
     def build(self):
