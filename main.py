@@ -1,8 +1,9 @@
 #
 #TEAM 13
 #AllergiScan APP
-#Luis Puga, Praise , 
+#Luis Puga, Praise Idowu, RainbowMan
 #
+
 from kivy.uix.checkbox import CheckBox
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen
@@ -19,10 +20,14 @@ from pyzbar import pyzbar
 
 import cv2
 
+# Resize the window
+from kivy.core.window import Window
+Window.size = (350, 600)
+
 # Constants
 outputtext=''
 sample = Label(text='Eggs, Milk, & Nuts',size_hint_y=None,height='48dp',font_size='45dp')
-barCode=Label(text=outputtext,size_hint_y=None,height='48dp',font_size='45dp')
+barCode=Label(text=outputtext,size_hint_y=None,height='48dp',font_size='23dp')
 found = set()       
 togglflag=True
 allFlag = False
@@ -38,7 +43,7 @@ class MainScreen(BoxLayout):
         self.cam.set(3,1280)        
         self.cam.set(4,720)
         self.img=Image()        
-        self.lab3=Label(text='AllegScan ',size_hint_y=None,height='48dp',font_size='45dp')
+        self.lab3=Label(text='AllergiScan ',size_hint_y=None,height='48dp',font_size='45dp')
         self.lab4=Label(text='Scan an item below',size_hint_y=None,height='48dp',font_size='27dp')
         self.add_widget(self.lab3)
         self.add_widget(self.lab4)
@@ -143,7 +148,7 @@ class SecondScreen(BoxLayout):
         
         self.orientation='vertical'
         self.lab1=Label(text='Result: ',size_hint_y=None,height='48dp',font_size='45dp')
-        self.lab4=Label(text='Contains: ',size_hint_y=None,height='48dp',font_size='45dp')
+        self.lab4=Label(text='Contains: ',size_hint_y=None,height='15dp',font_size='15dp')
         self.but1=Button(text='Scan Another Item',on_press=self.change_screen,size_hint_y=None,height='48dp')
         
         if allFlag == True:
